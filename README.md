@@ -34,23 +34,23 @@ El proyecto está diseñado como una base extensible para experimentos y herrami
 
 1. Clona el repositorio:
 
-\`\`\`bash
+```bash
 git clone <repo-url>
 cd instagram-followers-analyzer
-\`\`\`
+```
 
 2. Crea y activa un entorno virtual:
 
-\`\`\`bash
+```bash
 python -m venv .venv
 source .venv/bin/activate
-\`\`\`
+```
 
 3. Instala dependencias:
 
-\`\`\`bash
+```bash
 pip install -r requirements.txt
-\`\`\`
+```
 
 ## Configuración
 
@@ -60,9 +60,9 @@ Streamlit usa la carpeta `.streamlit/` para configuración local
 
 Ejecuta la app Streamlit:
 
-\`\`\`bash
+```bash
 streamlit run app.py
-\`\`\`
+```
 
 Parámetros útiles:
 
@@ -73,9 +73,9 @@ Parámetros útiles:
 
 Ejecuta las pruebas con `pytest`:
 
-\`\`\`bash
+```bash
 pytest -q
-\`\`\`
+```
 
 Agrega más pruebas conforme se amplíe la lógica.
 
