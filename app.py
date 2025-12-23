@@ -269,6 +269,10 @@ def load_lottie(url: str):
 # CSS PERSONALIZADO
 # =============================================================================
 
+# =============================================================================
+# CSS PERSONALIZADO (CORREGIDO PARA DARK MODE)
+# =============================================================================
+
 def load_css():
     st.markdown("""
     <style>
@@ -282,7 +286,7 @@ def load_css():
             top: 0;
             left: 0;
             right: 0;
-            background: white;
+            background: var(--background-color); /* Adaptable */
             padding: 10px 20px;
             display: flex;
             align-items: center;
@@ -291,6 +295,7 @@ def load_css():
             z-index: 9999;
             transform: translateY(-100%);
             transition: transform 0.3s ease;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.2);
         }
 
         .sticky-topbar.visible {
@@ -330,7 +335,8 @@ def load_css():
         }
 
         .main-header p {
-            color: #666;
+            color: var(--text-color); /* Adaptable */
+            opacity: 0.8;
             font-size: 1rem;
             margin: 0.5rem 0 0 0;
         }
@@ -388,13 +394,15 @@ def load_css():
         }
 
         .step-pending {
-            background: #e0e0e0;
-            color: #666;
+            background: rgba(128, 128, 128, 0.2); /* Adaptable (gris transparente) */
+            color: var(--text-color);
+            opacity: 0.6;
         }
 
         .step-label {
             font-size: 11px;
-            color: #666;
+            color: var(--text-color); /* Adaptable */
+            opacity: 0.8;
             font-weight: 500;
             white-space: nowrap;
         }
@@ -419,30 +427,10 @@ def load_css():
             100% { box-shadow: 0 0 0 0 rgba(225, 48, 108, 0); }
         }
 
-        /* Search box with embedded arrow button */
+        /* Search box wrapper */
         .search-wrapper {
             position: relative;
             width: 100%;
-        }
-
-        .search-wrapper input {
-            padding-right: 44px !important;
-        }
-
-        .search-arrow {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            z-index: 10;
-            transition: transform 0.2s ease;
-        }
-
-        .search-arrow:hover {
-            transform: translateY(-50%) scale(1.15);
         }
 
         /* User cards */
@@ -451,13 +439,13 @@ def load_css():
             align-items: center;
             padding: 14px 18px;
             margin: 10px 0;
-            background: white;
+            background: var(--secondary-background-color); /* Adaptable */
             border-radius: 16px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.06);
             transition: all 0.25s ease;
             text-decoration: none;
-            color: inherit;
-            border: 1px solid #f0f0f0;
+            color: var(--text-color) !important; /* Forzar color de texto adaptable */
+            border: 1px solid rgba(128, 128, 128, 0.1); /* Borde sutil */
         }
 
         .user-card:hover {
@@ -486,12 +474,13 @@ def load_css():
         .user-name {
             font-weight: 600;
             font-size: 15px;
-            color: #262626;
+            color: var(--text-color); /* Adaptable */
             margin: 0;
         }
 
         .user-handle {
-            color: #8e8e8e;
+            color: var(--text-color); /* Adaptable */
+            opacity: 0.7;
             font-size: 13px;
             margin: 2px 0 0 0;
         }
@@ -506,7 +495,7 @@ def load_css():
 
         .user-action {
             background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            color: white;
+            color: white !important;
             padding: 10px 18px;
             border-radius: 24px;
             font-size: 13px;
@@ -518,6 +507,7 @@ def load_css():
         .user-action:hover {
             opacity: 0.9;
             transform: scale(1.02);
+            color: white !important;
         }
 
         /* Download section */
@@ -530,30 +520,21 @@ def load_css():
             margin: 16px 0;
         }
 
-        .download-card h3 {
-            margin: 0 0 12px 0;
-            font-size: 1.3rem;
-        }
-
-        .download-card p {
-            margin: 0 0 16px 0;
-            opacity: 0.9;
-        }
-
-        /* Metric cards */
-        .metric-row {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
         /* Tutorial styling */
         .tutorial-step {
-            background: #f8f9fa;
+            background: var(--secondary-background-color); /* Adaptable */
+            color: var(--text-color); /* Adaptable */
             padding: 12px 16px;
             border-radius: 12px;
             margin: 8px 0;
             border-left: 4px solid #E1306C;
+            border: 1px solid rgba(128, 128, 128, 0.1);
+        }
+        
+        /* Ajuste para enlaces dentro del tutorial */
+        .tutorial-step code {
+            color: #E1306C;
+            background: rgba(225, 48, 108, 0.1);
         }
     </style>
     """, unsafe_allow_html=True)
@@ -610,7 +591,7 @@ def render_tutorial():
             "📲 Ir a descargar mis datos de Instagram",
             "https://accountscenter.instagram.com/info_and_permissions/dyi/?theme=dark",
             type="primary",
-            use_container_width=True
+            width='stretch'
         )
 
         st.markdown("""
@@ -719,11 +700,13 @@ def render_user_cards(users: Set[InstagramUser], category: str, color_class: str
 
             st.markdown('''
                 <style>
-                    input[placeholder="🔍 Buscar usuario..."] {
+                    /* Asegura que el icono se vea bien y el texto sea legible */
+                    div[data-testid="stTextInput"] input {
                         padding-right: 44px !important;
                         background-repeat: no-repeat;
                         background-position: right 12px center;
                         background-size: 18px 18px;
+                        /* Icono SVG */
                         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23E1306C' d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/></svg>");
                     }
                 </style>
@@ -789,7 +772,7 @@ def render_user_cards(users: Set[InstagramUser], category: str, color_class: str
             if st.button(
                 f"👇 Ver más ({remaining} restantes)",
                 key=f"load_more_{category}",
-                use_container_width=True
+                width='stretch'
             ):
                 st.session_state[items_key] += 50
                 st.rerun()
@@ -873,7 +856,7 @@ def render_charts(results: Dict[str, Any]):
             margin=dict(t=60, b=60, l=20, r=20)
         )
 
-        st.plotly_chart(fig_donut, use_container_width=True)
+        st.plotly_chart(fig_donut, width='stretch')
 
     with chart_col2:
         # Bar Chart
@@ -900,7 +883,7 @@ def render_charts(results: Dict[str, Any]):
             margin=dict(t=60, b=40, l=40, r=20)
         )
 
-        st.plotly_chart(fig_bar, use_container_width=True)
+        st.plotly_chart(fig_bar, width='stretch')
 
     # Gauge de salud
     health_score = min(100, int(
@@ -931,7 +914,7 @@ def render_charts(results: Dict[str, Any]):
     ))
 
     fig_gauge.update_layout(height=280, margin=dict(t=80, b=20))
-    st.plotly_chart(fig_gauge, use_container_width=True)
+    st.plotly_chart(fig_gauge, width='stretch')
 
 
 def render_table_view(results: Dict[str, Any]):
@@ -974,7 +957,7 @@ def render_table_view(results: Dict[str, Any]):
                 "Fecha": st.column_config.TextColumn("📅 Seguido el", width="small"),
                 "Perfil": st.column_config.LinkColumn("🔗 Perfil", display_text="Ver →")
             },
-            use_container_width=True,
+            width='stretch',
             hide_index=True,
             height=400
         )
@@ -988,7 +971,7 @@ def render_table_view(results: Dict[str, Any]):
                 "Fecha": st.column_config.TextColumn("📅 Te sigue desde", width="small"),
                 "Perfil": st.column_config.LinkColumn("🔗 Perfil", display_text="Ver →")
             },
-            use_container_width=True,
+            width='stretch',
             hide_index=True,
             height=400
         )
@@ -1010,7 +993,7 @@ def render_table_view(results: Dict[str, Any]):
                 "Fecha": st.column_config.TextColumn("📅 Desde", width="small"),
                 "Perfil": st.column_config.LinkColumn("🔗 Perfil", display_text="Ver →")
             },
-            use_container_width=True,
+            width='stretch',
             hide_index=True,
             height=400
         )
@@ -1033,11 +1016,11 @@ def render_users_section(results: Dict[str, Any]):
             file_name="instagram_analysis.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             type="primary",
-            use_container_width=True
+            width='stretch'
         )
 
     with header_col3:
-        if st.button("🔄 Nuevo análisis", use_container_width=True):
+        if st.button("🔄 Nuevo análisis", width='stretch'):
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
             st.rerun()
@@ -1215,7 +1198,7 @@ def main():
 
             col1, col2, col3 = st.columns([1, 2, 1])
             with col2:
-                if st.button("🔍 Analizar", type="primary", use_container_width=True):
+                if st.button("🔍 Analizar", type="primary", width='stretch'):
                     with st.spinner("Analizando..."):
                         results = analyze(
                             st.session_state.followers,
