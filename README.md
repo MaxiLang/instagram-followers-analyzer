@@ -86,14 +86,3 @@ Agrega más pruebas conforme se amplíe la lógica.
 - Escribe pruebas para nuevas funcionalidades.
 
 Si te interesa colaborar, abre un issue o un pull request con una descripción clara del cambio.
-
-## Despliegue
-
-Para desplegar en servicios como Streamlit Cloud, Heroku o similares:
-
-- Asegúrate de incluir `requirements.txt` y `app.py` en el repositorio público.
-
-## Seguridad y privacidad
-
-- Este proyecto puede procesar datos de redes sociales. Asegúrate de cumplir las políticas de la plataforma (Instagram) y la legislación aplicable (protección de datos).
-- Evita almacenar tokens o credenciales en el repositorio.
