@@ -3,6 +3,7 @@
 Proyecto para analizar seguidores de Instagram y ofrecer métricas y reportes simples mediante una interfaz Streamlit.
 
 **Estado:** Prototipo / herramienta personal
+**Streamlit-app:** https://instagram-followers-analyzer.streamlit.app/
 
 ## Descripción
 
